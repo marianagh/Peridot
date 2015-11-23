@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
--- Host: localhost    Database: dbviudanegra
+-- Host: localhost    Database: peridot
 -- ------------------------------------------------------
 -- Server version	5.7.9-log
 
@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `canal`;
 CREATE TABLE `canal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
-  `sintonia` varchar(45) DEFAULT NULL,
+  `sintonia` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `canal` (
 
 LOCK TABLES `canal` WRITE;
 /*!40000 ALTER TABLE `canal` DISABLE KEYS */;
-INSERT INTO `canal` VALUES (1,'Fox','7'),(2,'FX','54'),(3,'Canal 5','28'),(4,'Canal de las estrellas','5'),(5,'Discovery','12');
+INSERT INTO `canal` VALUES (1,'Fox',7),(2,'Discovery',8),(3,'Nick',15),(4,'CNN en español',54);
 /*!40000 ALTER TABLE `canal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,11 +50,11 @@ DROP TABLE IF EXISTS `programa`;
 CREATE TABLE `programa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
-  `duracion` int(11) DEFAULT NULL,
   `sinopsis` varchar(45) DEFAULT NULL,
-  `clasificacion` varchar(1) DEFAULT NULL,
+  `duracion` int(11) DEFAULT NULL,
+  `clasificacion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `programa` (
 
 LOCK TABLES `programa` WRITE;
 /*!40000 ALTER TABLE `programa` DISABLE KEYS */;
-INSERT INTO `programa` VALUES (1,'Los simpson',30,'...','B'),(2,'Padre de familia',30,'...','B'),(3,'Ventaneando',30,'...','A');
+INSERT INTO `programa` VALUES (1,'Impacto','...',60,'A'),(2,'prueba','...',30,'A');
 /*!40000 ALTER TABLE `programa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,18 +76,19 @@ DROP TABLE IF EXISTS `programacion`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `programacion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fecha` datetime DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `hora` time DEFAULT NULL,
   `idcanal` int(11) DEFAULT NULL,
-  `idprograma` int(11) DEFAULT NULL,
   `idusuario` int(11) DEFAULT NULL,
+  `idprograma` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY `idusuario_idx` (`idusuario`),
   KEY `idcanal_idx` (`idcanal`),
   KEY `idprograma_idx` (`idprograma`),
-  KEY `idusuario_idx` (`idusuario`),
   CONSTRAINT `idcanal` FOREIGN KEY (`idcanal`) REFERENCES `canal` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `idprograma` FOREIGN KEY (`idprograma`) REFERENCES `programa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `idusuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +97,7 @@ CREATE TABLE `programacion` (
 
 LOCK TABLES `programacion` WRITE;
 /*!40000 ALTER TABLE `programacion` DISABLE KEYS */;
-INSERT INTO `programacion` VALUES (1,NULL,1,1,NULL),(2,NULL,2,2,NULL),(3,NULL,3,3,NULL),(4,NULL,4,1,NULL),(5,NULL,5,2,NULL),(6,NULL,1,2,NULL),(7,NULL,1,3,NULL);
+INSERT INTO `programacion` VALUES (1,'2015-10-12','14:00:00',1,1,1);
 /*!40000 ALTER TABLE `programacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,12 +109,12 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `contrasena` varchar(45) DEFAULT NULL,
-  `tipousuario` int(11) DEFAULT NULL,
+  `tipo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +123,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,'marianagh','1234','Admin');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -134,4 +136,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-23 11:09:38
+-- Dump completed on 2015-11-23 13:26:43

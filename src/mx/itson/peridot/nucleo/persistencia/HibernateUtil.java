@@ -25,11 +25,8 @@ private static final SessionFactory sessionFactory;
 	static{
 		
 		try{
-			Configuration configuration = new Configuration().configure();
-			StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
-			serviceRegistryBuilder.applySettings(configuration.getProperties());
-			ServiceRegistry serviceRegistry = serviceRegistryBuilder.build();
-			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+	
+			sessionFactory = new Configuration().configure().buildSessionFactory();
 			
 		} catch (HibernateException ex){
 			System.err.println("Ocurrio un error al inicializar la configuracion");
